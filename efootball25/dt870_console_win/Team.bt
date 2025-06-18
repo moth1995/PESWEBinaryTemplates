@@ -1,0 +1,53 @@
+//------------------------------------------------
+//--- 010 Editor v15.0.2 Binary Template
+//
+//      File: Team.bin
+//   Authors: meowning_123, marqisspes6
+//   Version: 1.0
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+local const int NAME_SIZE = 70;
+local const int SHORT_NAME_SIZE = 10;
+
+typedef struct _Efootball25Team
+{
+    uint64 coachId;
+    uint32 unknown;
+    uint32 teamId;
+    uint32 unknown1[12];
+    uint16 cityId;
+    uint16 stadiumId;
+    uint32 unknown2[6];
+    char japaneseName[NAME_SIZE];
+    char esUSName[NAME_SIZE];
+    char enName[NAME_SIZE];
+    char elName[NAME_SIZE];
+    char enUSName[NAME_SIZE];
+    char esName[NAME_SIZE];
+    char frName[NAME_SIZE];
+    char trName[NAME_SIZE];
+    char koName[NAME_SIZE];
+    char ptName[NAME_SIZE];
+    char deName[NAME_SIZE];
+    char shortName[SHORT_NAME_SIZE];
+    char ptBRName[NAME_SIZE];
+    char zhCNName[NAME_SIZE];
+    char nlName[NAME_SIZE];
+    char zhTWName[NAME_SIZE];
+    char itName[NAME_SIZE];
+    char idName[NAME_SIZE];
+    char ruName[NAME_SIZE];
+    char arName[NAME_SIZE];
+    char svName[NAME_SIZE];
+    uint8 padding[2];
+    
+} Efootball25Team<read=(enUSName)>;
+
+local int totalTeams = FileSize()/sizeof(Efootball25Team);
+
+Efootball25Team team[totalTeams];
