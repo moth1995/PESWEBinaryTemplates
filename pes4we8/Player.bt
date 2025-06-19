@@ -3,7 +3,7 @@
 //
 //      File: para_We8.bin_000
 //   Authors: Pato_Lucas18, marqisspes6
-//   Version: 1.0
+//   Version: 1.1
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -74,31 +74,55 @@ void WriteInverted63(uint32 &raw, string s)
     raw = (uint32)(63 - v);
 }
 
+string ReadInverted1(uint32 raw)
+{
+    return Str("%d", raw - 1 );
+}
+
+void WriteInverted1(uint32 &raw, string s)
+{
+    int v = Atoi(s);
+    raw = (uint32)(v + 1);
+}
+
+enum <uint32> Position
+{
+    GK  = 0,
+    UNK = 1,
+    CBW = 2,
+    CBT = 3,
+    SB  = 4,
+    DMF = 5,
+    CMF = 6,
+    SMF = 7,
+    OMF = 8,
+    WF  = 9,
+    CF  = 10,
+};
+
 local const int NAME_SIZE = 0x10;
 
 typedef struct _PES4WE8Player
 {
-    // block00
     wchar_t name[NAME_SIZE];
-	// block32
+
     char shirtName[NAME_SIZE];
 
-    //uint32 block48;
     uint32 callnameId:16;
-    uint32 block48_unk00:16;
+    uint32 unknown:16;
 
-    uint32 regPosition:4;
+    Position regPosition:4;
     uint32 attack:7;
     uint32 defense:7;
     uint32 balance:7;
-    uint32 resistance:7;
+    uint32 stamina:7;
     
     uint32 topSpeed:7;
     uint32 acceleration:7;
     uint32 response:7;
     uint32 dribbleAccuracy:7;
     uint32 gk:1;
-    uint32 sb:1;
+    uint32 unknown:1;
     uint32 cbw:1;
     uint32 cbt:1;
     
@@ -106,7 +130,7 @@ typedef struct _PES4WE8Player
     uint32 shortPassAccuracy:7;
     uint32 shortPassSpeed:7;
     uint32 longPassAccuracy:7;
-    uint32 wb:1; // no existe en el juego
+    uint32 sb:1;
     uint32 dmf:1;
     uint32 cmf:1;
     uint32 smf:1;
@@ -144,12 +168,12 @@ typedef struct _PES4WE8Player
     uint32 agility:7;
     uint32 goalKeepingSkills:7;
     uint32 dominantFoot:1;
-    uint32 block76_unk00:1;
+    uint32 unknown:1;
     uint32 weakFootAccuracy:3;
     uint32 weakFootFrequency:3;
     uint32 freeKickType:3;
     
-    uint32 block80_unk00:2;
+    uint32 unknown:2;
     uint32 oneTouchPass:1;
     uint32 marking:1;
     uint32 dLineControl:1;
@@ -160,26 +184,27 @@ typedef struct _PES4WE8Player
     uint32 outside:1;
     uint32 injury:2;
     uint32 slidingTackle:1;
-    uint32 block80_unk01:19;
+    uint32 unknown:19;
     
-    uint32 block84_unk00:2;
+    uint32 unknown:2;
     uint32 penaltyKick:2;
     uint32 goalCelebration1:6;
-    uint32 block84_unk01:1;
+    uint32 unknown:1;
     uint32 goalCelebration2:6;
     uint32 tacticalDribble:1;
     uint32 linePositioning:1;
     uint32 side:1;
     uint32 center:1;
-    uint32 block84_unk02:11;
+    uint32 unknown:11;
     
     uint32 height:6 <read=ReadHeight, write=WriteHeight>;
     uint32 weight:7;
-    uint32 block88_unk00:3;
+    uint32 unknown:3;
     uint32 skinColour:2;
     uint32 headHeight:4 <read=ReadPhysicalAttribute, write=WritePhysicalAttribute>;
     uint32 headWidth:4 <read=ReadPhysicalAttribute, write=WritePhysicalAttribute>;
-    uint32 block88_unk01:6;
+    uint32 bootsTongueColor:3;
+    uint32 bootsLineColor2:3;
     
     uint32 hairId:11;
     uint32 hairColourPattern:6;
@@ -188,12 +213,20 @@ typedef struct _PES4WE8Player
     uint32 facialHairType:7;
     uint32 sleeves:2;
     
-    uint32 block96_unk00:20;
+    uint32 facialHairColour:6;
+    uint32 sunGlassesType:2;
+    uint32 sunGlassesColour:3;
+    uint32 maskType:2;
+    uint32 maskColour:3;
+    uint32 capType:1;
+    uint32 capColour:3;
     uint32 wristbandType:2;
-    uint32 bootsType:6;
-    uint32 block96_unk01:4;
+    uint32 bootsType:4;
+    uint32 bootsBaseColor:3;
+    uint32 bootsLineColor1:3;
     
-    uint32 block100_unk00:12;
+    uint32 faceId:9;
+    uint32 bootsStudsColour:3;
     uint32 tape:1;
     uint32 hairColorR:6;
     uint32 hairColorG:6;
@@ -210,20 +243,44 @@ typedef struct _PES4WE8Player
     uint32 faceType:2;
     uint32 legLength:4 <read=ReadPhysicalAttribute, write=WritePhysicalAttribute>;
     
-    uint32 block108_unk00:3;
+    uint32 bandanaColour:3;
     uint32 shoulderHeight:4 <read=ReadPhysicalAttribute, write=WritePhysicalAttribute>;
     uint32 shoulderWidth:4 <read=ReadPhysicalAttribute, write=WritePhysicalAttribute>;
     uint32 age:5 <read=ReadAge, write=WriteAge> ;
     uint32 nationality:9;
-    uint32 block108_unk01:7;
+    uint32 unknown:7;
     
-    uint32 block112;
-    uint32 block116;
-    uint32 block120;
+    uint32 unknown;
+    
+    uint32 browsHeight:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 eyesPosition:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 eyesAngle:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 eyesSize:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 noseHeight:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 jawWidth:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 jawChin:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 noseWidth:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 mouthSize:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 mouthThicknessOfLips:2 <read=ReadInverted1, write=WriteInverted1>;
+    uint32 mouthType:2;
+    uint32 unknown:1;
+    
+    uint32 browsTypeAngle:6;
+    uint32 unknown:1;
+    uint32 noseType:3;
+    uint32 unknown:1;
+    uint32 cheeksType:3;
+    uint32 mouthPosition:3 <read=ReadInverted3, write=WriteInverted3>;
+    uint32 eyesType:5;
+    uint32 unknown:1;
+    uint32 jawType:3;
+    uint32 unknown:6;
 
 } PES4WE8Player <read=(name)>;
 
 local int totalPlayers = FileSize()/sizeof(PES4WE8Player);
 
 PES4WE8Player players[totalPlayers];
+
+//PES4WE8Player player;
 
